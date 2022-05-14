@@ -1,0 +1,146 @@
+/*
+=======
+essentials
+=======
+*/
+
+.as_list {
+    padding: 15px 15px;
+    display: flex;
+}
+
+.as_list p, .as_autocomplete p {
+    color: var(--yt-spec-text-secondary);
+    font-size: 14px;
+}
+
+.as_group {
+    width: 33%;
+}
+
+
+
+.as_title {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+}
+
+.as_filter {
+    display: flex;
+    margin-bottom: 5px;
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+
+.as_filter.enabled {
+    opacity: 1;
+}
+
+
+
+.as_button {
+    background: transparent;
+    color: var(--yt-spec-text-primary);
+    padding: 10px 10px;
+    font-size: 14px;
+    outline: none;
+    border-width: 1px;
+    border-color: var(--yt-spec-text-secondary);
+    border-style: solid;
+    border-radius: 10px;
+}
+
+
+.as_hide {
+    display: none;
+}
+
+.as_wait {
+    opacity: 0.4;
+}
+
+/*
+=======
+text boxes
+=======
+*/
+
+
+.as_input {
+    background: transparent;
+    outline: none;
+    border: none;
+    border-bottom: 1px var(--yt-spec-text-secondary) solid;
+    color: var(--yt-spec-text-secondary);
+
+    width: 150px;
+
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.as_input.number {
+    width: 60px;
+    text-align: center;
+}
+
+.as_input.small {
+    width: 40px;
+}
+
+
+/*
+=======
+check boxes
+=======
+*/
+
+.as_checkbox {
+    width: 14px;
+    height: 14px;
+    min-width: 14px;
+    min-height: 14px;
+    font-size: 10px;
+    text-align: center;
+    border: 1px #cbcbcb solid;
+    color: transparent;
+    user-select: none;
+    margin-right: 5px;
+    transition: color 0.2s;
+}
+
+.as_checkbox.checked {
+    color: var(--yt-spec-text-primary);
+}
+
+/*
+=======
+warning box
+=======
+*/
+.as_warning {
+    font-size: 11px;
+    padding: 10px 10px;
+    border: 1px #cbcbcb solid;
+    margin-bottom: 10px;
+}
+
+/*
+=======
+autocomplete
+=======
+*/
+.as_autocomplete {
+    background: black;
+    border: 1px #cbcbcb solid;
+    max-width: 200px;
+    position: absolute;
+    padding: 10px 10px;
+}
+
+.as_autocomplete p {
+    cursor: pointer;
+}
