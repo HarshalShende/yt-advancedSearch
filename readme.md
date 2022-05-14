@@ -8,7 +8,7 @@
 
 AdvancedSearch adds itself to the "Filters" menu on YouTube searches.
 
-<img src="git/screenshot.png"/>
+<img src="git/screenshot.PNG"/>
 
 ---
 
