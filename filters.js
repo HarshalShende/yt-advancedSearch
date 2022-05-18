@@ -174,9 +174,8 @@ function filters_add() {
     </div>
     `
     custom_settings.classList.add("as_list")
-    let appendCount = 0
     waitForElement("iron-collapse", () => {
-        if(appendCount > 1) return;
+        if(document.querySelector(".as_list")) return;
         $("iron-collapse").appendChild(custom_settings)
         appendCount++;
 

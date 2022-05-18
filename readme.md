@@ -1,12 +1,14 @@
 <img src="git/logo.png"/>
 
-## A Chrome extension for YouTube for more detailed search results filtering.
+## AdvancedSearch - A Chrome extension for YouTube for more detailed search results filtering.
 
 ---
 
 ## What does it do?
 
 AdvancedSearch adds itself to the "Filters" menu on YouTube searches.
+
+It hides results that don't match your choices.
 
 <img src="git/screenshot.PNG"/>
 
@@ -23,4 +25,4 @@ Or:
 - Switch **Developer mode** on
 - **Load unpacked** and select the directory you download the project files to.
 
-Make sure to refresh any YouTube tabs you have opened before installing.
+Make sure to refresh any YouTube tabs you have opened before.
