@@ -1,6 +1,6 @@
 {
     "name": "AdvancedSearch for YouTube",
-    "version": "1.1.1",
+    "version": "1.2",
     "description": "Adds more filters to the Search.",
     "manifest_version": 3,
     "content_scripts": [
@@ -9,8 +9,12 @@
           "js": ["./video_tools/sapisidhash.js",
                 "./video_tools/current_cfg_data.js",
                 "./video_tools/video_request.js",
-                "./upload_functions.js",
-                "./age_restricted_check_function.js",
+
+                "./experimental_filters/main.js",
+                "./experimental_filters/upload_date.js",
+                "./experimental_filters/age_restricted.js",
+                "./experimental_filters/view_count.js",
+
                 "./utilities.js",
                 "./workaround_css_add.js",
                 "./filters.js"],

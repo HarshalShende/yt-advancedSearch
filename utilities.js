@@ -90,18 +90,9 @@ function to_seconds(input) {
 simpleText to actual count
 =======
 */
+
 function simple_to_count(simpleText) {
     let tr = 0;
-
-    simpleText = simpleText.replaceAll("&nbsp;", " ")
-    simpleText = simpleText.split(" ")
-    if(simpleText.length >= 2) {
-        simpleText.pop()
-    }
-    simpleText = simpleText.join(" ")
-    simpleText = simpleText.replaceAll(",", ".")
-
-
 
     let ending = simpleText.replace(/[0-9+.+ ]/gi, "").toLowerCase();
 
@@ -113,47 +104,17 @@ function simple_to_count(simpleText) {
 
 
     switch(ending.trimStart()) {
-        case "k":
-        case "tys":
-        case "rbx":
-        case "tis":
-        case "þ":
-        case "e":
-        case "tūkst":
-        case "settk":
-        case "kde":
-        case "t": {
+        case "k": {
             tr = tr * 1000
             break;
         }
 
-        case "m":
-        case "mln":
-        case "jtx":
-        case "mil":
-        case "mio":
-        case "mde":
-        case "settmill":
-        case "mde":
-        case "milj":
-        case "mn": {
+        case "m": {
             tr = tr * 1000000
             break;
         }
 
-        case "b":
-        case "mld":
-        case "mjd":
-        case "mx":
-        case "mia":
-        case "mrd":
-        case "mdde":
-        case "mir":
-        case "ma":
-        case "mlrd":
-        case "settmrd":
-        case "mmde":
-        case "mr": {
+        case "b": {
             tr = tr * 1000000000
             break;
         }

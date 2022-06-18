@@ -137,18 +137,6 @@ function filters_add() {
             <span class="as_checkbox" data-filtername="topic-uploads">✔</span>
             <p>${lang.topic_uploads}</p>
         </div>
-        <div class="as_filter">
-            <span class="as_checkbox" data-filtername="views-more">✔</span>
-            <p>${lang.view_count_more}</p>
-            <input type="text" autocomplete="off" spellcheck="false" class="as_input number input_views_more"></input>
-            <p>${lang.views}</p>
-        </div>
-        <div class="as_filter">
-            <span class="as_checkbox" data-filtername="views-less">✔</span>
-            <p>${lang.view_count_less}</p>
-            <input type="text" autocomplete="off" spellcheck="false" class="as_input number input_views_less"></input>
-            <p>${lang.views}</p>
-        </div>
     </div>
     <div class="as_group">
         <p class="as_warning">${lang.slow_warning}</p>
@@ -162,13 +150,25 @@ function filters_add() {
         <div class="as_filter">
             <span class="as_checkbox" data-filtername="upload-before">✔</span>
             <p>${lang.uploaded_before}</p>
-            <input type="text" autocomplete="off" spellcheck="false" class="as_input number small input_up_bef_day" placeholder="dd"></input>
-            <input type="text" autocomplete="off" spellcheck="false" class="as_input number small input_up_bef_month" placeholder="mm"></input>
-            <input type="text" autocomplete="off" spellcheck="false" class="as_input number small input_up_bef_year" placeholder="yyyy"></input>
+            <input type="text" autocomplete="off" spellcheck="false" class="as_input number small input_up_before_day" placeholder="dd"></input>
+            <input type="text" autocomplete="off" spellcheck="false" class="as_input number small input_up_before_month" placeholder="mm"></input>
+            <input type="text" autocomplete="off" spellcheck="false" class="as_input number small input_up_before_year" placeholder="yyyy"></input>
         </div>
         <div class="as_filter">
             <span class="as_checkbox" data-filtername="hide-age-restricted">✔</span>
             <p>${lang.hide_default} ${lang.age_restricted}</p>
+        </div>
+        <div class="as_filter">
+            <span class="as_checkbox" data-filtername="views-more">✔</span>
+            <p>${lang.view_count_more}</p>
+            <input type="text" autocomplete="off" spellcheck="false" class="as_input number input_views_more"></input>
+            <p>${lang.views}</p>
+        </div>
+        <div class="as_filter">
+            <span class="as_checkbox" data-filtername="views-less">✔</span>
+            <p>${lang.view_count_less}</p>
+            <input type="text" autocomplete="off" spellcheck="false" class="as_input number input_views_less"></input>
+            <p>${lang.views}</p>
         </div>
         <a class="as_link link_stop">Stop experimental filters</a>
     </div>
@@ -177,7 +177,6 @@ function filters_add() {
     waitForElement("iron-collapse", () => {
         if(document.querySelector(".as_list")) return;
         $("iron-collapse").appendChild(custom_settings)
-        appendCount++;
 
 
         // post-add stuff
@@ -200,8 +199,7 @@ function filters_add() {
 
         // stop experimental filters doing their thing
         $(".link_stop").addEventListener("click", () => {
-            upload_check_stop();
-            age_restricted_check_stop()
+            experimental_stop();
         })
     })
 }
@@ -420,62 +418,10 @@ function search_results_filter(source) {
                 })
                 break;
             }
-            /*
-            More views than
-            */
-            case "views-more": {
-                let target = simple_to_count($(".input_views_more").value)
-                if(target == 0) return;
-                $("ytd-video-renderer").forEach(result => {
-                    if(!result.querySelector("#metadata-line .ytd-video-meta-block") ||
-                        simple_to_count(result.querySelector("#metadata-line .ytd-video-meta-block").innerText) < target) {
-                        result.classList.add("as_hide")
-                    }
-                })
-                break;
-            }
-            /*
-            Less views than
-            */
-            case "views-less": {
-                let target = simple_to_count($(".input_views_less").value)
-                if(target == 0) return;
-                $("ytd-video-renderer").forEach(result => {
-                    if(!result.querySelector("#metadata-line .ytd-video-meta-block") ||
-                        simple_to_count(result.querySelector("#metadata-line .ytd-video-meta-block").innerText) > target) {
-                        result.classList.add("as_hide")
-                    }
-                })
-                break;
-            }
-            /*
-            Uploaded after
-            */
-            case "upload-after": {
-                if(!$(".input_up_after_year").value || !$(".input_up_after_month").value ||
-                    !$(".input_up_after_day").value || source == "mutation") return;
-                upload_functions("after")
-                break;
-            }
-            /*
-            Uploaded before
-            */
-            case "upload-before": {
-                if(!$(".input_up_bef_year").value || !$(".input_up_bef_month").value ||
-                    !$(".input_up_bef_day").value || source == "mutation") return;
-                upload_functions("bef")
-                break;
-            }
-            /*
-            Hide age restricted content
-            */
-            case "hide-age-restricted": {
-                if(source == "mutation") return;
-                age_restricted_check()
-                break;
-            }
         }
     })
+
+    experimental_start(source);
 
     $(".as_primary").innerHTML = `${lang.header}`
     if(document.querySelectorAll(".as_hide").length !== 0) {
