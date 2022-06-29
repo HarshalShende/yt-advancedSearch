@@ -8,7 +8,7 @@ gives us more flexibility over experimental filters which aren't synchronous
 
 let experimental = {
     "checks": [],
-    "video_queue": []
+    "video_queue": [],
 }
 
 function experimental_start(source) {
@@ -16,7 +16,7 @@ function experimental_start(source) {
     experimental.checks = []
 
     // push appropriate checks
-    document.querySelectorAll(`[data-filtername="upload-after"].checked, [data-filtername="upload-before"].checked, [data-filtername="hide-age-restricted"].checked, [data-filtername="views-more"].checked, [data-filtername="views-less"].checked`).forEach(check => {
+    document.querySelectorAll(`[data-filtername="upload-after"].checked, [data-filtername="upload-before"].checked, [data-filtername="hide-age-restricted"].checked, [data-filtername="views-more"].checked, [data-filtername="views-less"].checked, [data-filtername="matching-keywords"].checked`).forEach(check => {
         experimental.checks.push(check.getAttribute("data-filtername"))
     })
 
@@ -27,6 +27,16 @@ function experimental_start(source) {
         }
         experimental.video_queue.push(result)
     })
+
+    // if liked-videos is checked, get that outside of the interval
+    if(experimental.checks.includes("liked-videos")) {
+        get_liked_videos((likedList) => {
+            experimental.liked_videos_checked = true;
+            likedList.forEach(video => {
+                experimental.liked_videos.push(video)
+            })
+        })
+    }
 
     // check videos, use "passing" for each video - let all the checks go through and then decide
     let video_checks = setInterval(() => {
@@ -61,6 +71,11 @@ function experimental_start(source) {
                     case "views-more":
                     case "views-less": {
                         passing = view_count_compare(video, check);
+                        break;
+                    }
+                    // Keywords
+                    case "matching-keywords": {
+                        passing = includes_keywords(video, $(".as_input.input_keywords").value);
                         break;
                     }
                 }

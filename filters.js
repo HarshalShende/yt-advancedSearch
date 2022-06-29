@@ -17,6 +17,7 @@ const lang = {
     "premiere": "premieres",
     "ad": "marked ads",
     "shorts": "Shorts",
+    "watched_content": "fully watched videos",
     "author_remove": "content by: ",
     "author": "Content made by: ",
     "author_placeholder": "comma separated names",
@@ -27,6 +28,11 @@ const lang = {
     "content_longer_than": "Content longer than: ",
     "title_includes": "Titles including: ",
     "topic_uploads": "Automatic Music uploads",
+    "chapters": "Videos containing chapters",
+    "subscribed-creators": "Content from creators you subscribe",
+
+
+    "form_invite": "Want to improve AdvancedSearch?",
 
 
     "view_count_more": "Videos with more than: ",
@@ -38,12 +44,17 @@ const lang = {
     "uploaded_before": "Videos uploaded before: ",
     "uploaded_after": "Videos uploaded after: ",
     "age_restricted": "age restricted videos",
-    "matching_keywords": "Videos including 1 or more tags: ",
+    "matching_keywords": "Videos including tags: ",
+    "keywords_placeholder": "comma separated",
 
 
 
     "stats_filter_1": "filtered",
-    "stats_filter_2": "elements"
+    "stats_filter_2": "elements",
+
+
+
+    "logged_in": "(only logged in users)"
 
 }
 
@@ -94,6 +105,10 @@ function filters_add() {
             <p>${lang.hide_default} ${lang.author_remove}</p>
             <input type="text" autocomplete="off" spellcheck="false" class="as_input input_creatorname_2" placeholder="${lang.author_placeholder}"></input>
         </div>
+        <div class="as_filter">
+            <span class="as_checkbox" data-filtername="watched-videos">✔</span>
+            <p>${lang.hide_default} ${lang.watched_content}</p>
+        </div>
 
         <button class="as_button button_filter">Filter</button>
     </div>
@@ -137,6 +152,14 @@ function filters_add() {
             <span class="as_checkbox" data-filtername="topic-uploads">✔</span>
             <p>${lang.topic_uploads}</p>
         </div>
+        <div class="as_filter">
+            <span class="as_checkbox" data-filtername="chapters">✔</span>
+            <p>${lang.chapters}</p>
+        </div>
+        <div class="as_filter">
+            <span class="as_checkbox" data-filtername="subscribed-creators">✔</span>
+            <p>${lang["subscribed-creators"]}</p>
+        </div>
     </div>
     <div class="as_group">
         <p class="as_warning">${lang.slow_warning}</p>
@@ -170,7 +193,14 @@ function filters_add() {
             <input type="text" autocomplete="off" spellcheck="false" class="as_input number input_views_less"></input>
             <p>${lang.views}</p>
         </div>
+        <div class="as_filter">
+            <span class="as_checkbox" data-filtername="matching-keywords">✔</span>
+            <p>${lang.matching_keywords}</p>
+            <input type="text" autocomplete="off" spellcheck="false" class="as_input input_keywords" placeholder="${lang.keywords_placeholder}"></input>
+        </div>
         <a class="as_link link_stop">Stop experimental filters</a>
+        <br>
+        <a href="https://docs.google.com/forms/d/1iukscBQdxam-pUQ1C7WYmWfL2SMCPFKe85GuVlCs1YA/" class="as_link" target="_blank" style="font-size: 10px;">${lang.form_invite}</a>
     </div>
     `
     custom_settings.classList.add("as_list")
@@ -217,7 +247,6 @@ function search_results_filter(source) {
         result.classList.remove("hide_source_requests")
     })
 
-
     document.querySelectorAll(".as_checkbox.checked").forEach(check => {
 
         switch(check.getAttribute("data-filtername")) {
@@ -252,7 +281,7 @@ function search_results_filter(source) {
             Hide marked ads
             */
             case "hide-ad": {
-                $("ytd-video-renderer, ytd-promoted-sparkles-web-renderer").forEach(result => {
+                $("ytd-video-renderer, ytd-promoted-sparkles-web-renderer, ytd-promoted-video-renderer").forEach(result => {
                     if(result.querySelector(".badge-style-type-ad")) {
                         result.classList.add("as_hide")
                     }
@@ -418,6 +447,52 @@ function search_results_filter(source) {
                 })
                 break;
             }
+            /*
+            Videos with chapters
+            */
+            case "chapters": {
+                $("ytd-video-renderer").forEach(result => {
+                    if(!result.querySelector("ytd-expandable-metadata-renderer")) {
+                        result.classList.add("as_hide")
+                    }
+                })
+                break;
+            }
+            /*
+            From creators you subscribe
+            */
+            case "subscribed-creators": {
+                // til you can actually do functions like that
+                function hide_sub() {
+                    $("ytd-video-renderer").forEach(result => {
+                        if(!subscribed_names.includes(result.querySelector(".ytd-channel-name a").innerText)) {
+                            result.classList.add("as_hide")
+                        }
+                    })
+                }
+
+
+                if(source !== "mutation") {
+                    get_subscribed(() => {
+                        hide_sub();
+                    });
+                } else {
+                    hide_sub();
+                }
+                break;
+            }
+            /*
+            Hide watched videos
+            */
+            case "watched-videos": {
+                $("ytd-video-renderer").forEach(result => {
+                    if(result.querySelector(`ytd-thumbnail-overlay-resume-playback-renderer #progress[style="width: 100%;"]`)) {
+                        result.classList.add("as_hide")
+                    }
+                })
+                break;
+            }
+
         }
     })
 

@@ -6,6 +6,35 @@ function $(element) {
     }
 }
 
+/*
+=======
+get creators user subscribes for subscribed-creators filter
+=======
+*/
+let subscribed_names = []
+function get_subscribed(c) {
+    waitForElement(`ytd-guide-section-renderer:nth-child(2)`, () => {
+        let list = $(`ytd-guide-section-renderer`)[1]
+    
+        // expand if needed
+        if(list.querySelector(`#expander-item`)) {
+            list.querySelector(`#expander-item`).click();
+        }
+    
+        setTimeout(function() {
+            list.querySelectorAll(`ytd-guide-entry-renderer`).forEach(entry => {
+                if(!entry.querySelector("svg")) {
+                    subscribed_names.push(entry.querySelector("#endpoint").innerText)
+                }
+            })
+            c();
+            setTimeout(function() {
+                // collapse :)
+                list.querySelector(`#collapser-item`).click();
+            }, 250)
+        }, 500)
+    })
+}
 
 /*
 =======
