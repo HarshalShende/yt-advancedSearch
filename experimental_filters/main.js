@@ -16,7 +16,7 @@ function experimental_start(source) {
     experimental.checks = []
 
     // push appropriate checks
-    document.querySelectorAll(`[data-filtername="upload-after"].checked, [data-filtername="upload-before"].checked, [data-filtername="hide-age-restricted"].checked, [data-filtername="views-more"].checked, [data-filtername="views-less"].checked, [data-filtername="matching-keywords"].checked`).forEach(check => {
+    document.querySelectorAll(`[data-filtername="hide-age-restricted"].checked, [data-filtername="views-more"].checked, [data-filtername="views-less"].checked, [data-filtername="matching-keywords"].checked`).forEach(check => {
         experimental.checks.push(check.getAttribute("data-filtername"))
     })
 
@@ -24,8 +24,8 @@ function experimental_start(source) {
     $("ytd-video-renderer:not(.as_hide)").forEach(result => {
         if(experimental.checks.length !== 0) {
             result.classList.add("as_wait")
+            experimental.video_queue.push(result)
         }
-        experimental.video_queue.push(result)
     })
 
     // if liked-videos is checked, get that outside of the interval
@@ -56,12 +56,6 @@ function experimental_start(source) {
                 if(!passing) return;
                 // iterate through each check
                 switch(check) {
-                    // Uploaded after/before a specified date - pass to upload_date.js
-                    case "upload-after":
-                    case "upload-before": {
-                        passing = compare_upload_time(video, check);
-                        break;
-                    }
                     // Age restricted
                     case "hide-age-restricted": {
                         passing = is_age_restricted(video);

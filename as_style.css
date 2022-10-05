@@ -26,6 +26,14 @@ essentials
     font-size: 14px;
     margin-bottom: 15px;
     margin-top: 10px;
+    user-select: none;
+}
+
+.as_subtitle {
+    font-size: 11px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 .as_filter {
@@ -143,4 +151,24 @@ autocomplete
 
 .as_autocomplete p {
     cursor: pointer;
+}
+
+/*
+=======
+waiting for response
+=======
+*/
+.as_server_wait {
+    display: flex;
+}
+
+.as_loading_anim {
+    background-image: url("data:image/gif;base64,R0lGODlhEAAQAIABAP///wAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hFDcmVhdGVkIHdpdGggR0lNUAAh+QQJBQABACwAAAAAEAAQAAACFoyPqQGw2do7cVJnbzZy+w+G4kiWWwEAIfkECQUAAQAsAAAAABAAEAAAAhSMj6nArNjaM3KearPevPsPhuKoFQAh+QQJBQABACwAAAAAEAAQAAACFYyPqQENe5x8qyEKs968+w+G4kh2BQAh+QQJBQABACwAAAAAEAAQAAACFIyPqQHde5yEytH0rt68+w+G4sgVACH5BAkFAAEALAAAAAAQABAAAAIWjI+pB7Db2lNxpmqZy4z7D4biSJZGAQAh+QQJBQABACwAAAAAEAAQAAACF4yPqcsLrcCDR04aJK6X6v1t4kiWplkAACH5BAkFAAEALAAAAAAQABAAAAIWjI+py+3/ADxyBlAhtnv2mGnWSJZIAQAh+QQJBQABACwAAAAAEAAQAAACFIyPqcvtD6OcNAEgcbybv6t9YUUVACH5BAkFAAEALAAAAAAQABAAAAIVjI+py+0Po5y02quANhqwDnoNiBkFACH5BAkFAAEALAAAAAAQABAAAAIUjI+py+0Po5y02gWyzGBz7XzdZRQAIfkECQUAAQAsAAAAABAAEAAAAhWMj6nL7Q8RiAHMaGnGl+sOgdRIPgUAOw==");
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+}
+
+.as_wait_hide {
+    display: none;
 }
